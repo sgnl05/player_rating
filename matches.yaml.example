@@ -1,0 +1,29 @@
+2021-10-07:
+  winning_team:
+    - oystein
+    - frank
+    - mats
+  losing_team:
+    - inge
+    - gjermund
+    - armin
+
+2021-10-05:
+  winning_team:
+    - frank
+    - oystein
+    - gjermund
+  losing_team:
+    - mats
+    - inge
+    - armin
+
+2021-09-30:
+  winning_team:
+    - frank
+    - mats
+    - armin
+  losing_team:
+    - gjermund
+    - inge
+    - oystein
