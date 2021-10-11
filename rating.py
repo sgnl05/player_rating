@@ -116,7 +116,7 @@ def main(argv):
     total_rating = 0
     player_rating = {}
     for p_id in spesific_players:
-      player_rating[p_id] = int(players[p_id]['ordinal'] * 100)
+      player_rating[p_id] = round(players[p_id]['ordinal'] * 100)
 
     closest_difference = None
     all_players_set = set(player_rating.keys())
@@ -143,6 +143,8 @@ def main(argv):
 
     for player in best_team_b:
       print(players[player]['name'], player_rating[player])
+
+  print("\n")
 
 if __name__ == "__main__":
    main(sys.argv[1:])
