@@ -117,11 +117,15 @@ def main(argv):
 
   print(table.get_string(sortby="Rating", reversesort=True))
 
+
+  # If -p /--players is set
   if list_spesific_players:
     total_rating = 0
     player_rating = {}
     for p_id in spesific_players:
       player_rating[p_id] = round(players[p_id]['ordinal'] * 100)
+      if not 'keeper' in players[p_id]:
+        players[p_id]['keeper'] = False
       if players[p_id]['keeper']:
         keepers.append(p_id)
 
@@ -129,6 +133,8 @@ def main(argv):
     all_players_set = set(player_rating.keys())
 
     for team_a in combinations(player_rating.keys(), int(len(all_players_set) / 2)):
+
+      # if -k is set
       if split_keepers and set(keepers).issubset(set(team_a)):
         pass # Team A has all keepers
       elif split_keepers and set(keepers).isdisjoint(set(team_a)):
