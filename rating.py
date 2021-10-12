@@ -9,8 +9,9 @@ from itertools import combinations
 def main(argv):
 
   list_spesific_players = False
+  split_keepers = False
   try:
-    opts, args = getopt.getopt(argv,"hp:",["players="])
+    opts, args = getopt.getopt(argv,"hp:k",["players="])
   except getopt.GetoptError:
     print('rating.py -p player1,player2')
     sys.exit(2)
@@ -18,9 +19,12 @@ def main(argv):
     if opt == '-h':
       print('rating.py -p player1,player2')
       sys.exit()
-    elif opt in ("-p", "--players"):
+    elif opt in ('-p', '--players'):
       list_spesific_players = True
       spesific_players = arg.split(",")
+    elif opt in '-k':
+      split_keepers = True
+
 
   # Define table and fields
   table = PrettyTable()
@@ -51,6 +55,7 @@ def main(argv):
   for m_id, m_info in matches.items():
 
     # Define teams and stats
+    keepers = []
     winning_team = winners = []
     losing_team = losers = []
     drawing_team1 = drawing_team2 = draw = []
@@ -117,30 +122,37 @@ def main(argv):
     player_rating = {}
     for p_id in spesific_players:
       player_rating[p_id] = round(players[p_id]['ordinal'] * 100)
+      if players[p_id]['keeper']:
+        keepers.append(p_id)
 
     closest_difference = None
     all_players_set = set(player_rating.keys())
 
     for team_a in combinations(player_rating.keys(), int(len(all_players_set) / 2)):
-      team_a_set = set(team_a)
-      team_b_set = all_players_set - team_a_set
+      if split_keepers and set(keepers).issubset(set(team_a)):
+        pass # Team A has all keepers
+      elif split_keepers and set(keepers).isdisjoint(set(team_a)):
+        pass # Team A has no keepers
+      else:
 
-      team_a_total = sum([player_rating[x] for x in team_a_set])
-      team_b_total = sum([player_rating[x] for x in team_b_set])
+        team_a_set = set(team_a)
+        team_b_set = all_players_set - team_a_set
 
-      score_difference = abs(team_a_total - team_b_total)
+        team_a_total = sum([player_rating[x] for x in team_a_set])
+        team_b_total = sum([player_rating[x] for x in team_b_set])
 
-      if not closest_difference or score_difference < closest_difference:
-        closest_difference = score_difference
-        best_team_a = team_a_set
-        best_team_b = team_b_set
+        score_difference = abs(team_a_total - team_b_total)
+
+        if not closest_difference or score_difference < closest_difference:
+          closest_difference = score_difference
+          best_team_a = team_a_set
+          best_team_b = team_b_set
 
     print("\n*** Team A (" + str(sum([player_rating[x] for x in best_team_a])) + ") ***")
     for player in best_team_a:
       print(players[player]['name'], player_rating[player])
 
     print("\n*** Team B (" + str(sum([player_rating[x] for x in best_team_b])) + ") ***" )
-
     for player in best_team_b:
       print(players[player]['name'], player_rating[player])
 
