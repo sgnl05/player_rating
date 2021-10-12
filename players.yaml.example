@@ -1,17 +1,23 @@
 armin:
-  name: Armin Özil
+  name: Armin Leno
+  keeper: true
 
 frank:
   name: Frank de Gea
+  keeper: true
 
 gjermund:
   name: Gjermund De Bruyne
+  keeper: false
 
 inge:
-  name: Inge Vardy
+  name: Inge Becker
+  keeper: true
 
 mats:
   name: Mats Salah
+  keeper: false
 
 oystein:
   name: Øystein Kane
+  keeper: false
