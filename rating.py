@@ -58,40 +58,47 @@ def main(argv):
     keepers = []
     winning_team = winners = []
     losing_team = losers = []
-    drawing_team1 = drawing_team2 = draw = []
+    draw_team1 = draw_team2 = draw = []
     winning_team_rating = []
     losing_team_rating = []
-    drawing_team1_rating = drawing_team2_rating = []
+    draw_team1_rating = draw_team2_rating = []
     winning_team_player_count = 0
     losing_team_player_count = 0
-    drawing_team1_player_count = 0
-    drawing_team2_player_count = 0
+    draw_team1_player_count = 0
+    draw_team2_player_count = 0
 
     for key in m_info:
       for id in m_info[key]:
         if key == 'winning_team':
+          draw = False
           winning_team.append(id)
           winning_team_rating.append(players[id]['rating'])
           winning_team_player_count+=1
           players[id]['wins']+=1
         elif key == 'losing_team':
+          draw = False
           losing_team.append(id)
           losing_team_rating.append(players[id]['rating'])
           losing_team_player_count+=1
           players[id]['loss']+=1
-        elif key == ('drawing_team1'):
-          drawing_team1.append(id)
-          drawing_team1_rating.append(players[id]['rating'])
-          drawing_team1_player_count+=1
+        elif key == ('draw_team1'):
+          draw = True
+          draw_team1.append(id)
+          draw_team1_rating.append(players[id]['rating'])
+          draw_team1_player_count+=1
           players[id]['draw']+=1
-        elif key == ('drawing_team2'):
-          drawing_team2.append(id)
-          drawing_team2_rating.append(players[id]['rating'])
-          drawing_team2_player_count+=1
+        elif key == ('draw_team2'):
+          draw = True
+          draw_team2.append(id)
+          draw_team2_rating.append(players[id]['rating'])
+          draw_team2_player_count+=1
           players[id]['draw']+=1
 
   # Calculate and store new ranking
-    [winners, losers] = rate([winning_team_rating, losing_team_rating])
+    if draw:
+      [draw1, draw2] = rate([draw_team1_rating, draw_team2_rating], score=[1] * (len(draw_team1_rating) + len(draw_team2_rating)))
+    else:
+      [winners, losers] = rate([winning_team_rating, losing_team_rating])
 
     wi = -1
     for p_id in winning_team:
@@ -107,6 +114,21 @@ def main(argv):
       players[p_id]['mu'] = losers[li][0]
       players[p_id]['sigma'] = losers[li][1]
       players[p_id]['ordinal'] = ordinal(mu=players[p_id]['mu'], sigma=players[p_id]['sigma'])
+    d1i = -1
+    for p_id in draw_team1:
+      d1i+=1
+      players[p_id]['rating'] = create_rating(draw1[d1i])
+      players[p_id]['mu'] = draw1[d1i][0]
+      players[p_id]['sigma'] = draw1[d1i][1]
+      players[p_id]['ordinal'] = ordinal(mu=players[p_id]['mu'], sigma=players[p_id]['sigma'])
+    d2i = -1
+    for p_id in draw_team2:
+      d2i+=1
+      players[p_id]['rating'] = create_rating(draw2[d2i])
+      players[p_id]['mu'] = draw2[d2i][0]
+      players[p_id]['sigma'] = draw2[d2i][1]
+      players[p_id]['ordinal'] = ordinal(mu=players[p_id]['mu'], sigma=players[p_id]['sigma'])
+
 
   for p_id, p_info in players.items():
     if list_spesific_players:
@@ -129,9 +151,9 @@ def main(argv):
       if players[p_id]['keeper']:
         keepers.append(p_id)
 
+    # Look at all team combinations and find the closest rating difference
     closest_difference = None
     all_players_set = set(player_rating.keys())
-
     for team_a in combinations(player_rating.keys(), int(len(all_players_set) / 2)):
 
       # if -k is set
@@ -154,15 +176,28 @@ def main(argv):
           best_team_a = team_a_set
           best_team_b = team_b_set
 
-    print("\n*** Team A (" + str(sum([player_rating[x] for x in best_team_a])) + ") ***")
+    # Store details for Team A
+    team_a_count=0
+    best_team_a_with_rating = {}
     for player in best_team_a:
-      print(players[player]['name'], player_rating[player])
+      team_a_count+=1
+      best_team_a_with_rating[player] = round(players[player]['ordinal'] * 100)
 
-    print("\n*** Team B (" + str(sum([player_rating[x] for x in best_team_b])) + ") ***" )
+    # Store details for Team B
+    team_b_count=0
+    best_team_b_with_rating = {}
     for player in best_team_b:
-      print(players[player]['name'], player_rating[player])
+      team_b_count+=1
+      best_team_b_with_rating[player] = round(players[player]['ordinal'] * 100)
 
-  print("\n")
+    # Print the team setup
+    print("\n*** Team A (" + str(sum([player_rating[x] for x in best_team_a])) + "/" + str(team_a_count) + ") ***")
+    for k, v in sorted(best_team_a_with_rating.items(), key=lambda x: x[1], reverse=True):
+      print(k, v)
+    print("\n*** Team B (" + str(sum([player_rating[x] for x in best_team_b])) + "/" + str(team_b_count) + ") ***")
+    for k, v in sorted(best_team_b_with_rating.items(), key=lambda v: v[1], reverse=True):
+      print(k, v)
+    print("\n")
 
 if __name__ == "__main__":
    main(sys.argv[1:])
