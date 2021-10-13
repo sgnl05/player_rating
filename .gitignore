@@ -2,6 +2,11 @@
 players.yaml
 matches.yaml
 
+# Editor backup and swap files
+*~
+*.swp
+*.swo
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
