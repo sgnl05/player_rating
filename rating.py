@@ -28,7 +28,7 @@ def main(argv):
 
   # Define table and fields
   table = PrettyTable()
-  table.field_names = ["Player", "Rating", "Win", "Loss", "Draw"]
+  table.field_names = ["Player", "Rating", "Win", "Draw", "Loss"]
 
   # Define default rating
   default_mu = 25
@@ -133,9 +133,9 @@ def main(argv):
   for p_id, p_info in players.items():
     if list_spesific_players:
       if p_id in spesific_players:
-        table.add_row([players[p_id]['name'], round(players[p_id]['ordinal'] * 100), players[p_id]['wins'], players[p_id]['loss'], players[p_id]['draw']])
+        table.add_row([players[p_id]['name'], round(players[p_id]['ordinal'] * 100), players[p_id]['wins'], players[p_id]['draw'], players[p_id]['loss']])
     else:
-      table.add_row([players[p_id]['name'], round(players[p_id]['ordinal'] * 100), players[p_id]['wins'], players[p_id]['loss'], players[p_id]['draw']])
+      table.add_row([players[p_id]['name'], round(players[p_id]['ordinal'] * 100), players[p_id]['wins'], players[p_id]['draw'], players[p_id]['loss']])
 
   print(table.get_string(sortby="Rating", reversesort=True))
 
