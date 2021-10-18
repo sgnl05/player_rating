@@ -1,23 +1,29 @@
 armin:
   name: Armin Leno
+  short: Armin
   keeper: true
 
 frank:
   name: Frank de Gea
+  short: Frank
   keeper: true
 
 gjermund:
   name: Gjermund De Bruyne
+  short: Gjermund
   keeper: false
 
 inge:
-  name: Inge Becker
+  name: Inge Ederson
+  short: Inge
   keeper: true
 
 mats:
   name: Mats Salah
+  short: Mats
   keeper: false
 
 oystein:
-  name: Øystein Kane
+  name: Øystein van Dijk
+  name: Øystein
   keeper: false

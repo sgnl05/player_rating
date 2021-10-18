@@ -193,10 +193,10 @@ def main(argv):
     # Print the team setup
     print("\n*** Team A (" + str(sum([player_rating[x] for x in best_team_a])) + "/" + str(team_a_count) + ") ***")
     for k, v in sorted(best_team_a_with_rating.items(), key=lambda x: x[1], reverse=True):
-      print(k, v)
+      print(players[k]['short'], v)
     print("\n*** Team B (" + str(sum([player_rating[x] for x in best_team_b])) + "/" + str(team_b_count) + ") ***")
     for k, v in sorted(best_team_b_with_rating.items(), key=lambda v: v[1], reverse=True):
-      print(k, v)
+      print(players[k]['short'], v)
     print("\n")
 
 if __name__ == "__main__":
