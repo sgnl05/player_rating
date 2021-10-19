@@ -1,0 +1,64 @@
+<!doctype html>
+
+<html>
+<head>
+  <title>Rating</title>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<form id="generate_teams" action="" method="post">
+  <table id="rating">
+    <thead>
+      <tr>
+        <th>Player</th>
+        <th>Rating</th>
+        <th>Win</th>
+        <th>Draw</th>
+        <th>Loss</th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+{%- for player in players.items() %}
+      <tr>
+        <td>{{ player[1]['short'] }}</td>
+        <td>{{ (player[1]['ordinal']*100)|round|int }}</td>
+        <td>{{ player[1]['wins'] }}</td>
+        <td>{{ player[1]['draw'] }}</td>
+        <td>{{ player[1]['loss'] }}</td>
+        {%- if player[0] in selected_players %}
+        <td><input type="checkbox" id="players" name="players" value="{{ player[0] }}" checked>
+        {%- else %}
+        <td><input type="checkbox" id="players" name="players" value="{{ player[0] }}">
+        {%- endif %}
+      </tr>
+{%- endfor %}
+    </tbody>
+    <tfoot>
+      <td colspan="6">
+        <input class="btn" type="submit" value="Generate teams">
+      </td>
+    </tfoot>
+  </table>
+</form>
+
+{%- if selected_players|length > 0 %}
+
+
+<p><b>*** Team A ({{ team_a_total }}) ***</b><br>
+{% for key, value in team_a.items() %}
+{{ players[key]['short'] }} ({{ value }})<br>
+{% endfor %}
+</p>
+<p><b>*** Team B ({{ team_b_total }}) ***</b><br>
+{% for key, value in team_b.items() %}
+{{ players[key]['short'] }} ({{ value }})<br>
+{% endfor %}
+</p>
+
+{%- endif %}
+
+</body>
+</html>

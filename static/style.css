@@ -1,0 +1,35 @@
+body {
+  font-family: "helvetica", sans-serif;
+  text-align: left;
+}
+
+#rating {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+}
+
+#rating td, #rating th {
+  border: 1px solid #ddd;
+  text-align: center;
+  padding: 3px;
+}
+
+#rating td:first-child, #rating th:first-child {
+  text-align: left;
+}
+
+#rating tr:nth-child(even){background-color: #f2f2f2;}
+
+#rating tr:hover {background-color: #ddd;}
+
+#rating th {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+
+.btn {
+  float: right
+}
