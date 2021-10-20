@@ -31,7 +31,6 @@ for id in players:
 for m_id, m_info in matches.items():
 
     # Define teams and stats
-    keepers = []
     winning_team = winners = []
     losing_team = losers = []
     draw_team1 = draw_team2 = draw = []
@@ -102,15 +101,16 @@ sorted_players = OrderedDict(sorted(players.items(), key=lambda i: i[1]['ordinal
 
 @app.route('/')
 def root():
-    print('doidoj')
     return render_template('index.html', players=sorted_players)
 
 @app.route("/",methods=['GET','POST'])
 def teams():
-    selected_players = request.form.getlist('players')
 
+    selected_players = request.form.getlist('players')
+    keepers = []
     total_rating = 0
     player_rating = {}
+
     for p_id in selected_players:
         player_rating[p_id] = round(players[p_id]['ordinal'] * 100)
         if not 'keeper' in players[p_id]:
