@@ -49,12 +49,20 @@
 
 <p><b>*** Team A ({{ team_a_total }}) ***</b><br>
 {% for key, value in team_a.items() %}
+  {% if key in keepers %}
+{{ players[key]['short'] }}* ({{ value }})<br>
+  {% else %}
 {{ players[key]['short'] }} ({{ value }})<br>
+  {% endif %}
 {% endfor %}
 </p>
 <p><b>*** Team B ({{ team_b_total }}) ***</b><br>
 {% for key, value in team_b.items() %}
+  {% if key in keepers %}
+{{ players[key]['short'] }}* ({{ value }})<br>
+  {% else %}
 {{ players[key]['short'] }} ({{ value }})<br>
+  {% endif %}
 {% endfor %}
 </p>
 

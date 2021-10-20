@@ -158,7 +158,7 @@ def teams():
     team_b_sorted = OrderedDict(sorted(team_b_with_rating.items(), key=lambda i: i[1], reverse=True))
 
     # Return teams
-    return render_template('index.html', players=sorted_players,selected_players=selected_players,team_a=team_a_sorted,team_a_total=team_a_total,team_b=team_b_sorted,team_b_total=team_b_total)
+    return render_template('index.html', players=sorted_players,selected_players=selected_players,keepers=keepers,team_a=team_a_sorted,team_a_total=team_a_total,team_b=team_b_sorted,team_b_total=team_b_total)
 
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
