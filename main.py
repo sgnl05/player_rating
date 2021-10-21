@@ -9,8 +9,8 @@ app = Flask(__name__)
 # Define default rating
 default_mu = 25
 default_sigma = 8.333333333333334
-default_rating = Rating()
-default_ordinal = ordinal(mu=25, sigma=8.333333333333334)
+default_rating = Rating(mu=default_mu, sigma=default_sigma)
+default_ordinal = ordinal(mu=default_mu, sigma=default_sigma)
 
 # Read YAML files
 with open("players.yaml", 'r') as stream:
