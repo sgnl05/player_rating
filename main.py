@@ -28,7 +28,7 @@ for id in players:
     players[id].update(loss = 0)
     players[id].update(draw = 0)
 
-for m_id, m_info in matches.items():
+for m_id, m_info in reversed(matches.items()):
 
     # Define teams and stats
     winning_team = winners = []
